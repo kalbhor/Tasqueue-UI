@@ -1,0 +1,2 @@
+# Ignore go.sum if it gets created
+test-worker/go.sum

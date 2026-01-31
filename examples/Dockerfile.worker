@@ -1,0 +1,28 @@
+FROM golang:1.23-alpine
+
+WORKDIR /app
+
+# Install git for go mod
+RUN apk add --no-cache git
+
+# Copy tasqueue source (since we're using local replace)
+COPY ../Tasqueue /tasqueue
+
+# Copy worker go.mod and main.go
+COPY examples/test-worker/go.mod examples/test-worker/go.sum* ./
+COPY examples/test-worker/main.go ./
+
+# Download dependencies
+RUN go mod download
+
+# Build the worker
+RUN CGO_ENABLED=0 GOOS=linux go build -o /test-worker .
+
+FROM alpine:latest
+
+WORKDIR /root/
+
+# Copy the binary from builder
+COPY --from=0 /test-worker .
+
+CMD ["./test-worker"]

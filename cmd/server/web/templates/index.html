@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tasqueue UI - Job Queue Dashboard</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Tasqueue Dashboard</h1>
+            <div class="header-actions">
+                <button id="refreshBtn" class="btn btn-primary">Refresh</button>
+                <span id="lastUpdate" class="last-update"></span>
+            </div>
+        </header>
+
+        <nav class="tabs">
+            <button class="tab active" data-view="dashboard">Dashboard</button>
+            <button class="tab" data-view="jobs">Jobs</button>
+            <button class="tab" data-view="chains">Chains</button>
+            <button class="tab" data-view="groups">Groups</button>
+        </nav>
+
+        <!-- Dashboard View -->
+        <div id="dashboard-view" class="view active">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value" id="stat-pending">-</div>
+                    <div class="stat-label">Pending Jobs</div>
+                </div>
+                <div class="stat-card stat-success">
+                    <div class="stat-value" id="stat-success">-</div>
+                    <div class="stat-label">Successful Jobs</div>
+                </div>
+                <div class="stat-card stat-failed">
+                    <div class="stat-value" id="stat-failed">-</div>
+                    <div class="stat-label">Failed Jobs</div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Registered Tasks</h2>
+                <div id="tasks-list" class="tasks-list">
+                    <p class="loading">Loading...</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Queue Statistics</h2>
+                <div id="queue-stats" class="queue-stats">
+                    <p class="loading">Loading...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Jobs View -->
+        <div id="jobs-view" class="view">
+            <div class="section">
+                <div class="section-header">
+                    <h2>Jobs</h2>
+                    <div class="search-container">
+                        <input type="text" id="job-search-input" placeholder="Search by Job ID..." autocomplete="off">
+                        <button id="searchJobBtn" class="btn btn-primary">Search</button>
+                    </div>
+                </div>
+                <div class="filters-row">
+                    <div class="filters">
+                        <label>
+                            Status:
+                            <select id="job-status-filter">
+                                <option value="">All</option>
+                                <option value="successful">Successful</option>
+                                <option value="failed">Failed</option>
+                            </select>
+                        </label>
+                        <label>
+                            Queue:
+                            <input type="text" id="queue-filter" placeholder="tasqueue:tasks">
+                        </label>
+                        <button id="loadJobsBtn" class="btn btn-secondary">Load Jobs</button>
+                    </div>
+                    <p class="filter-note">Note: "All" shows successful and failed jobs only (not pending)</p>
+                </div>
+                <div id="jobs-list" class="jobs-list">
+                    <p class="info">Select filters and click "Load Jobs" to view jobs</p>
+                </div>
+                <div id="jobs-pagination" class="pagination-controls" style="display: none;">
+                    <button id="jobs-prev-btn" class="btn btn-secondary">Previous</button>
+                    <span id="jobs-page-info" class="page-info"></span>
+                    <button id="jobs-next-btn" class="btn btn-secondary">Next</button>
+                </div>
+            </div>
+
+            <!-- Job Detail Modal -->
+            <div id="job-modal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <h2>Job Details</h2>
+                    <div id="job-detail"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chains View -->
+        <div id="chains-view" class="view">
+            <div class="section">
+                <div class="section-header">
+                    <h2>Chains</h2>
+                    <div class="search-container">
+                        <input type="text" id="chain-id-input" placeholder="Search by Chain ID..." autocomplete="off">
+                        <button id="loadChainBtn" class="btn btn-primary">Search</button>
+                    </div>
+                </div>
+                <div id="chains-list" class="chains-list">
+                    <p class="info">Enter a chain ID to view details</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Groups View -->
+        <div id="groups-view" class="view">
+            <div class="section">
+                <div class="section-header">
+                    <h2>Groups</h2>
+                    <div class="search-container">
+                        <input type="text" id="group-id-input" placeholder="Search by Group ID..." autocomplete="off">
+                        <button id="loadGroupBtn" class="btn btn-primary">Search</button>
+                    </div>
+                </div>
+                <div id="groups-list" class="groups-list">
+                    <p class="info">Enter a group ID to view details</p>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>Tasqueue UI &copy; 2024 | Powered by <a href="https://github.com/kalbhor/tasqueue" target="_blank">Tasqueue</a></p>
+        </footer>
+    </div>
+
+    <script src="/static/js/app.js"></script>
+</body>
+</html>
